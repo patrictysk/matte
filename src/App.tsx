@@ -1,26 +1,54 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import './App.scss';
+import Back from './components/Back'
+import Learn from './components/Learn'
 
-function App() {
+const App = () => {
+
+  const [mode, setMode] = useState<'start' | 'learn' | 'train' | 'compete'>('start')
+
+  console.log('render app');
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <div className="app-main">
+        <h1>Alfred lär sig gånger!</h1>
+        {mode === 'start' &&
+          <>
+            <div
+              className="app-select"
+              onClick={() => setMode('learn')}
+            >
+              Kolla
+            </div>
+
+            <div
+              className="app-select"
+              onClick={() => setMode('train')}
+            >
+              Träna
+            </div>
+
+            <div
+              className="app-select"
+              onClick={() => setMode('compete')}
+            >
+              Tävla
+            </div>
+          </>
+        }
+
+        {mode === 'learn' &&
+          <>
+            <Back
+              handleBack={setMode}
+            />
+            <Learn />
+          </>
+        }
+      </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
