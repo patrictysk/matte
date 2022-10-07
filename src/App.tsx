@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import './App.scss';
 import Back from './components/Back'
 import Learn from './components/Learn'
+import Train from './components/Train'
+import Compete from './components/Compete'
 
 const App = () => {
 
@@ -44,6 +46,24 @@ const App = () => {
               handleBack={setMode}
             />
             <Learn />
+          </>
+        }
+
+        {mode === 'train' &&
+          <>
+            <Back
+              handleBack={setMode}
+            />
+            <Train />
+          </>
+        }
+
+        {mode === 'compete' &&
+          <>
+            <Back
+              handleBack={setMode}
+            />
+            <Compete />
           </>
         }
       </div>
