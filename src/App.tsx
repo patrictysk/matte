@@ -5,6 +5,9 @@ import Learn from './components/Learn'
 import Train from './components/Train'
 import Compete from './components/Compete'
 
+// Importing the Bootstrap CSS
+// import 'bootstrap/dist/css/bootstrap.min.css';
+
 const App = () => {
 
   const [mode, setMode] = useState<'start' | 'learn' | 'train' | 'compete'>('start')
