@@ -1,4 +1,4 @@
-import Button from 'react-bootstrap/Button';
+import Button from './Button/Button';
 
 const Learn = () => {
 
@@ -6,8 +6,8 @@ const Learn = () => {
 
     return (
         <div>Learn!
-            <Button variant='primary'>
-                Hej!
+            <Button variant='primary' size='lg'>
+                Hej hå!
             </Button>
         </div>
     )
