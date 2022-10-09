@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './App.scss';
-import Back from './components/Back'
-import Learn from './components/Learn'
+import Back from './components/Back/Back'
+import Learn from './components/Learn/Learn'
 import Train from './components/Train'
 import Compete from './components/Compete'
 
