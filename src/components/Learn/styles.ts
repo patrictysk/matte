@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { default as BsButton } from 'react-bootstrap/Button';
-
 interface TitleProps {
     backgroundColor?: string
 }
@@ -12,7 +11,6 @@ const Button = styled(BsButton) <TitleProps>`
 `
 
 const Wrapper = styled.div`
-    border: solid 1px white;
 `
 
 const Row = styled.div`
@@ -43,8 +41,29 @@ const Row = styled.div`
     }
 `
 
+const TableWrapper = styled.div`
+        border: solid 1px white;
+`
+
+const FormWrapper = styled.div`
+
+    margin-bottom: 30px;
+    .form-label {
+        display: inline;
+        width: auto;
+        margin-right: 20px;
+    }
+    .form-control {
+        display: inline;
+        width: 100px;
+        margin-right: 20px;
+    }
+`
+
 export {
     Wrapper,
     Row,
-    Button
+    Button,
+    TableWrapper,
+    FormWrapper
 }
