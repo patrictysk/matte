@@ -17,7 +17,7 @@ const App = () => {
   return (
     <div className="app">
       <div className="app-main">
-        <h1>Alfred lär sig gånger!</h1>
+        <h1 className='heading1'>Alfred lär sig gånger!</h1>
         {mode === 'start' &&
           <>
             <div
