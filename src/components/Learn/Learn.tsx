@@ -1,16 +1,35 @@
 import { useState } from 'react'
 import * as Styled from './styles'
 import Form from 'react-bootstrap/Form';
+import { useEffect } from 'react';
+import { setEnvironmentData } from 'worker_threads';
 
 const Learn = () => {
 
-    const [low, setLow] = useState<number>(3)
+    const [low, setLow] = useState<string>('1')
+    const [high, setHigh] = useState<string>('10')
+    // const [numbers, setNumbers] = useState<Array>
 
-    const numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    const numbers: Array<number> = []
+
+    useEffect(() => {
+
+        if (Math.round(parseInt(low)) < Math.round(parseInt(high))) {
+            for (let i = Math.round(parseInt(low)); i <= Math.round(parseInt(high)); i++) {
+                numbers.push(i)
+            }
+        }
+
+        console.log('numbers :>> ', numbers);
+
+    }, [low, high])
 
     const handleLowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('e :>> ', e.target.value);
-        setLow(Number.parseInt(e.target.value))
+        setLow(e.target.value)
+    }
+
+    const handleHighChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setHigh(e.target.value)
     }
 
     console.log('low :>> ', low);
@@ -20,9 +39,9 @@ const Learn = () => {
             <Styled.FormWrapper>
                 <Form>
                     <Form.Label>Lägsta: </Form.Label>
-                    <Form.Control type='text' value={low} size='lg' onChange={handleLowChange} />
+                    <Form.Control type='number' step='1' value={low} size='lg' onChange={handleLowChange} />
                     <Form.Label>Högsta:</Form.Label>
-                    <Form.Control type='text' value='10' size='lg' />
+                    <Form.Control type='number' step='1' value={high} size='lg' onChange={handleHighChange} />
                 </Form>
             </Styled.FormWrapper>
             <Styled.TableWrapper>
