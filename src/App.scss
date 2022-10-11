@@ -1,53 +1,53 @@
 @import "~bootstrap/scss/bootstrap";
 
 .app {
-    text-align: center;
-    position: relative;
+  text-align: center;
+  position: relative;
 }
 
 .app-main {
-    background-color: #282c34;
-    min-height: 100vh;
-    // display: flex;
-    // flex-direction: column;
-    // align-items: center;
-    // justify-content: center;
-    font-size: 30px;
-    color: white;
-    overflow: auto;
+  background-color: #282c34;
+  min-height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
+  font-size: 30px;
+  color: white;
+  overflow: auto;
 }
 
 .heading1 {
-    margin-bottom: 30px;
-    padding-top: 40px;
+  margin-bottom: 30px;
+  padding-top: 40px;
 }
 
 .app-select {
-    width: 130px;
-    height: 130px;
-    background-color: yellow;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-    color: black;
-    margin-bottom: 20px;
-    border: solid 3px black;
+  width: 130px;
+  height: 130px;
+  background-color: yellow;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  color: black;
+  margin: 0 auto 20px auto;
+  border: solid 3px black;
 
-    &:hover {
-        border: solid 3px gray;
-    }
+  &:hover {
+    border: solid 3px gray;
+  }
 
-    &:first-of-type {
-        background-color: red;
-    }
+  &:first-of-type {
+    background-color: red;
+  }
 
-    &:last-of-type {
-        background-color: green;
-    }
+  &:last-of-type {
+    background-color: green;
+  }
 
-    &:active {
-        background-color: blue;
-    }
+  &:active {
+    background-color: blue;
+  }
 }

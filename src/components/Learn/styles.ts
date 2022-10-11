@@ -27,7 +27,7 @@ const Row = styled.div`
         font-size: 30px;
     }
     & > span {
-        width: 50px;
+        min-width: 50px;
         height: 50px;
         display: inline-block;
         border: solid 1px white;
