@@ -2,26 +2,23 @@ import { useState } from 'react'
 import * as Styled from './styles'
 import Form from 'react-bootstrap/Form';
 import { useEffect } from 'react';
-import { setEnvironmentData } from 'worker_threads';
 
 const Learn = () => {
 
     const [low, setLow] = useState<string>('1')
     const [high, setHigh] = useState<string>('10')
-    // const [numbers, setNumbers] = useState<Array>
-
-    const numbers: Array<number> = []
+    const [numbers, setNumbers] = useState<Array<number>>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
     useEffect(() => {
 
+        const tempNumbers: Array<number> = []
+
         if (Math.round(parseInt(low)) < Math.round(parseInt(high))) {
             for (let i = Math.round(parseInt(low)); i <= Math.round(parseInt(high)); i++) {
-                numbers.push(i)
+                tempNumbers.push(i)
             }
+            setNumbers(tempNumbers)
         }
-
-        console.log('numbers :>> ', numbers);
-
     }, [low, high])
 
     const handleLowChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +29,7 @@ const Learn = () => {
         setHigh(e.target.value)
     }
 
-    console.log('low :>> ', low);
+    console.log('Learn rerenders');
 
     return (
         <Styled.Wrapper>
@@ -45,13 +42,17 @@ const Learn = () => {
                 </Form>
             </Styled.FormWrapper>
             <Styled.TableWrapper>
-                <Styled.Row>
-                    <span><span>{numbers[0] - 1}</span></span>
-                    {numbers.map(item => <span><span>{item}</span></span>)}
+                <Styled.Row
+                    key={`test-${numbers[0] - 1}`}
+                >
+                    <span><span>&nbsp;</span></span>
+                    {numbers.map((item, index) => <span key={index}><span>{item}</span></span>)}
                 </Styled.Row>
                 {numbers.map((item, index) =>
-                    <Styled.Row>
-                        <span><span>{numbers[index]}</span></span>{numbers.map(innerItem => <span><span>{item * innerItem}</span></span>)}
+                    <Styled.Row
+                        key={`row-${numbers[index]}`}
+                    >
+                        <span><span>{numbers[index]}</span></span>{numbers.map((innerItem, index) => <span key={index}><span>{item * innerItem}</span></span>)}
                     </Styled.Row>
                 )}
             </Styled.TableWrapper>

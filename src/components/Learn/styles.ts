@@ -20,6 +20,7 @@ const Row = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: auto;
 
     &:first-of-type {
         font-weight: 700;
@@ -43,6 +44,8 @@ const Row = styled.div`
 
 const TableWrapper = styled.div`
         border: solid 1px white;
+        display: inline-block;
+        
 `
 
 const FormWrapper = styled.div`
