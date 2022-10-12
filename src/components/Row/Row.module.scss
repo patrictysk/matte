@@ -1,0 +1,8 @@
+.row {
+    &>span {
+        display: inline-block;
+        min-width: 80px;
+        text-align: left;
+        ;
+    }
+}

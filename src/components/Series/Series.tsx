@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
 import { shuffleArray } from '../../utils/helpers';
+import Row from '../Row/Row';
 import styles from './Series.module.scss';
 
 type SeriesProps = {
@@ -18,9 +17,10 @@ const Series = ({ table, factor }: SeriesProps) => {
             {!factor &&
                 <div>
                     {numbers.map((n, index) =>
-                        <div className={styles.row}>
-                            <span>{table} * {n}</span><span>=</span>
-                        </div>
+                        <Row
+                            table={table}
+                            n={n}
+                        />
                     )}
                 </div>
             }
