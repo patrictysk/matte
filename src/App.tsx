@@ -4,74 +4,80 @@ import Back from './components/Back/Back'
 import Learn from './components/Learn/Learn'
 import Train from './components/Train/Train'
 import Compete from './components/Compete'
+import { Mode } from 'fs';
 
 // Importing the Bootstrap CSS
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
 
-  const [mode, setMode] = useState<'start' | 'learn' | 'train' | 'compete'>('start')
+    const [mode, setMode] = useState<Mode>('start')
 
-  console.log('render app');
+    console.log('render app');
 
-  return (
-    <div className="app">
-      <div className="app-main">
-        <h1 className='heading1'>Alfred lär sig gånger!</h1>
-        {mode === 'start' &&
-          <div>
-            <div
-              className="app-select"
-              onClick={() => setMode('learn')}
-            >
-              Kolla
+    return (
+        <div className="app">
+            <div className="app-main">
+                {mode === 'start' &&
+                    <>
+                        <h1 className='heading1'>Svea och Alfred lär sig matte!</h1>
+                        <div>
+                            <div
+                                className="app-select"
+                                onClick={() => setMode('learn')}
+                            >
+                                Kolla
+                            </div>
+
+                            <div
+                                className="app-select"
+                                onClick={() => setMode('train')}
+                            >
+                                Träna
+                            </div>
+
+                            <div
+                                className="app-select"
+                                onClick={() => setMode('compete')}
+                            >
+                                Tävla
+                            </div>
+                        </div>
+                    </>
+                }
+
+                {mode === 'learn' &&
+                    <>
+                        <Back
+                            handleBack={setMode}
+                            value={'start'}
+                        />
+                        <Learn />
+                    </>
+                }
+
+                {mode === 'train' &&
+                    <>
+                        <Back
+                            handleBack={setMode}
+                            value={'start'}
+                        />
+                        <Train />
+                    </>
+                }
+
+                {mode === 'compete' &&
+                    <>
+                        <Back
+                            handleBack={setMode}
+                            value={'start'}
+                        />
+                        <Compete />
+                    </>
+                }
             </div>
-
-            <div
-              className="app-select"
-              onClick={() => setMode('train')}
-            >
-              Träna
-            </div>
-
-            <div
-              className="app-select"
-              onClick={() => setMode('compete')}
-            >
-              Tävla
-            </div>
-          </div>
-        }
-
-        {mode === 'learn' &&
-          <>
-            <Back
-              handleBack={setMode}
-            />
-            <Learn />
-          </>
-        }
-
-        {mode === 'train' &&
-          <>
-            <Back
-              handleBack={setMode}
-            />
-            <Train />
-          </>
-        }
-
-        {mode === 'compete' &&
-          <>
-            <Back
-              handleBack={setMode}
-            />
-            <Compete />
-          </>
-        }
-      </div>
-    </div>
-  )
+        </div>
+    )
 }
 
 export default App

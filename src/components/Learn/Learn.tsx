@@ -34,6 +34,7 @@ const Learn = () => {
     return (
         <Styled.Wrapper>
             <Styled.FormWrapper>
+                <h1 className='heading1'>Multiplikationstabellen!</h1>
                 <Form>
                     <Form.Label>Lägsta: </Form.Label>
                     <Form.Control type='number' step='1' value={low} size='lg' onChange={handleLowChange} />

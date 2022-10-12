@@ -1,12 +1,14 @@
+import { Mode } from '../types'
 import * as Styled from './styles'
 
 type BackProps = {
-    handleBack: Function
+    handleBack: Function,
+    value: Mode
 }
 
-const Back = ({ handleBack }: BackProps) => {
+const Back = ({ handleBack, value }: BackProps) => {
     return (
-        <Styled.Button onClick={() => handleBack('start')}>Tillbaka</Styled.Button>
+        <Styled.Button onClick={() => handleBack(value)}>Tillbaka</Styled.Button>
     )
 }
 
