@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { shuffleArray } from '../../utils/helpers';
 import Row from '../Row/Row';
 import styles from './Series.module.scss';
@@ -11,6 +12,16 @@ const Series = ({ table, factor }: SeriesProps) => {
 
     const numbers = shuffleArray<number>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
 
+    const inputsRef = useRef<Array<HTMLInputElement>>([])
+
+    useEffect(() => {
+        inputsRef.current[0].focus()
+    }, [inputsRef])
+
+    const saveRefs = (instance: HTMLInputElement): void => {
+        inputsRef.current.push(instance)
+    }
+
     return (
         <div className={styles.wrapper}>
             {factor && table}
@@ -20,6 +31,8 @@ const Series = ({ table, factor }: SeriesProps) => {
                         <Row
                             table={table}
                             n={n}
+                            key={n}
+                            ref={saveRefs}
                         />
                     )}
                 </div>
@@ -29,10 +42,3 @@ const Series = ({ table, factor }: SeriesProps) => {
 }
 
 export default Series
-
-    // < Form >
-    //                 <Form.Label>Lägsta: </Form.Label>
-    //                 <Form.Control type='number' step='1' value={low} size='lg' onChange={handleLowChange} />
-    //                 <Form.Label>Högsta:</Form.Label>
-    //                 <Form.Control type='number' step='1' value={high} size='lg' onChange={handleHighChange} />
-    //             </Form >
