@@ -1,38 +1,40 @@
-import { forwardRef, useState } from 'react'
+import { forwardRef, useRef, useState } from 'react'
 import Form from 'react-bootstrap/Form';
 import styles from './Row.module.scss';
 
 type RowProps = {
     table: number,
-    n: number
+    n: number,
+    test: () => void,
+    shouldDisable?: boolean
 }
 
-const Row = forwardRef(({ table, n }: RowProps, ref: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined) => {
+const Row = forwardRef(({ table, n, test, shouldDisable = false }: RowProps, ref: ((instance: HTMLInputElement | null) => void) | React.RefObject<HTMLInputElement> | null | undefined) => {
+    const orderRef = useRef<number>(Math.random())
+
     const [answered, setAnswered] = useState<boolean>(false)
     const [value, setValue] = useState<string>()
     const [correct, setCorrect] = useState<boolean>()
 
-    // const handleKeyDown = (e: React.KeyboardEvent) => {
-
-    //     if (e.code === 'Tab' || e.code === 'Enter') {
-    //         if (typeof value === 'string' && (Math.round(parseInt(value)) === (table * n))) {
-    //             setCorrect(true)
-    //         }
-    //     }
-
-    //     if (e.code === 'Enter') {
-    //         e.preventDefault()
-    //     }
-    // }
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (e.code === 'Enter') {
+            e.preventDefault()
+        }
+    }
 
     return (
         <div
             className={styles.row}
-        //onKeyDown={handleKeyDown}
+            onKeyDown={handleKeyDown}
         >
-            <span>{table} * {n}</span>
+            {orderRef.current < 0.5 &&
+                <span>{table} * {n}</span>
+            }
+            {orderRef.current >= 0.5 &&
+                <span>{n} * {table}</span>
+            }
             <span>=</span>
-            <Form className={styles.answer}>
+            <Form className={`${styles.answer} ${answered ? correct ? styles.correct : styles.wrong : ''}`}>
                 <Form.Control
                     ref={ref}
                     type='number'
@@ -42,14 +44,18 @@ const Row = forwardRef(({ table, n }: RowProps, ref: ((instance: HTMLInputElemen
                         setValue(e.target.value)
                     }}
                     onBlur={() => {
-                        setAnswered(true)
-                        if (typeof value === 'string' && (Math.round(parseInt(value)) === (table * n))) {
-                            setCorrect(true)
+                        test()
+                        if (typeof value === 'string') {
+                            setAnswered(true)
+                            if (Math.round(parseInt(value)) === (table * n)) {
+                                setCorrect(true)
+                            }
                         }
                     }}
+                    disabled={shouldDisable && answered}
                 />
             </Form>
-            {answered && <span>{correct ? ' R ' : 'X'}</span>}
+            <span>{answered && !correct && <span>{table * n}</span>}</span>
         </div>
     )
 })

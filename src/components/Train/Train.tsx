@@ -6,7 +6,7 @@ import Series from '../Series/Series'
 
 const Train = () => {
 
-    const [table, setTable] = useState<number>(5)
+    const [table, setTable] = useState<number>()
     const [factor, setFactor] = useState<boolean>(false);
     const [ready, setReady] = useState<boolean>(false)
 
@@ -40,30 +40,36 @@ const Train = () => {
     return (
         <div className={styles.wrapper}>
             {!ready && <>
-                <h1 className='heading1'>Välj en tabell:</h1>
+                <h1 className='heading1'>Välj en tabell eller tiokompisar:</h1>
                 {renderButtons()}
-                <h1 className='heading1'>Vill du skriva svaret eller en faktor?</h1>
-                <Button
-                    className={styles.button}
-                    onClick={() => setReady(true)}
-                >
-                    Svaret
-                </Button>
-                <Button
-                    className={styles.button}
-                    onClick={() => {
-                        setFactor(true)
-                        setReady(true)
-                    }}
-                >
-                    En faktor
-                </Button>
+                {/* <Button className={styles.button}>Tiokompisar</Button> */}
+                {table && <>
+                    <h1 className='heading1'>Vill du skriva svaret eller en faktor?</h1>
+                    <Button
+                        className={styles.button}
+                        onClick={() => setReady(true)}
+                    >
+                        Svaret
+                    </Button>
+                    <Button
+                        className={styles.button}
+                        onClick={() => {
+                            setFactor(true)
+                            setReady(true)
+                        }}
+                    >
+                        En faktor
+                    </Button>
+                </>}
             </>}
             {ready && table &&
-                <Series
-                    table={table}
-                    factor={factor}
-                />
+                <>
+                    <h1 className='heading1'>Öva!</h1>
+                    <Series
+                        table={table}
+                        factor={factor}
+                    />
+                </>
             }
         </div>
     )

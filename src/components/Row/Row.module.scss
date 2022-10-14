@@ -1,12 +1,37 @@
 .row {
     &>span {
         display: inline-block;
-        min-width: 80px;
+        margin-right: 10px;
         text-align: left;
-        ;
+
+        &:first-child {
+            min-width: 116px;
+            text-align: right;
+        }
+    }
+
+    input {
+        width: 80px;
+        margin-right: 20px;
     }
 }
 
 .answer {
     display: inline-block;
+}
+
+.correct {
+
+    input,
+    input:disabled {
+        background-color: greenyellow;
+    }
+}
+
+.wrong {
+
+    input,
+    input:disabled {
+        background-color: red;
+    }
 }
