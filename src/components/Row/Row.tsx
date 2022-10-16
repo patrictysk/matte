@@ -34,7 +34,7 @@ const Row = forwardRef(({ table, n, test, shouldDisable = false }: RowProps, ref
                 <span>{n} * {table}</span>
             }
             <span>=</span>
-            <Form className={`${styles.answer} ${answered ? correct ? styles.correct : styles.wrong : ''}`}>
+            <Form className={`${styles.field} ${answered ? correct ? styles.correct : styles.wrong : ''}`}>
                 <Form.Control
                     ref={ref}
                     type='number'
@@ -55,7 +55,7 @@ const Row = forwardRef(({ table, n, test, shouldDisable = false }: RowProps, ref
                     disabled={shouldDisable && answered}
                 />
             </Form>
-            <span>{answered && !correct && <span>{table * n}</span>}</span>
+            <span className={styles.answer}>{answered && !correct && <span>{table * n}</span>}</span>
         </div>
     )
 })

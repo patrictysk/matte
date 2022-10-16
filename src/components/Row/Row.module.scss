@@ -16,7 +16,7 @@
     }
 }
 
-.answer {
+.field {
     display: inline-block;
 }
 
@@ -34,4 +34,8 @@
     input:disabled {
         background-color: red;
     }
+}
+
+.answer {
+    min-width: 50px;
 }
