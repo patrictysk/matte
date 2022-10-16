@@ -10,46 +10,47 @@ type SeriesProps = {
 
 const Series = ({ table, factor }: SeriesProps) => {
 
+    console.log('props :>> ', table, factor);
+
     const numbersRef = useRef(shuffleArray<number>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
 
     const inputsRef = useRef<Array<HTMLInputElement>>([])
 
-    const [sum, setSum] = useState<number>(0)
+    const [numberOfAnswers, setNumberOfAnswers] = useState<number>(0)
 
     useEffect(() => {
         inputsRef.current[0].focus()
     }, [inputsRef])
 
     useEffect(() => {
-        if (sum === numbersRef.current.length) {
+        if (numberOfAnswers === numbersRef.current.length) {
             console.log('Done!!');
         }
-    }, [sum])
+    }, [numberOfAnswers])
 
     const saveRefs = (instance: HTMLInputElement): void => {
         inputsRef.current.push(instance)
     }
 
-    const test = () => {
-        setSum((s: number) => s + 1)
+    const markAsAnswered = () => {
+        setNumberOfAnswers((s: number) => s + 1)
     }
 
     return (
         <div className={styles.wrapper}>
-            {factor && table}
-            {!factor &&
-                <div>
-                    {numbersRef.current.map((n, index) =>
-                        <Row
-                            table={table}
-                            n={n}
-                            key={n}
-                            ref={saveRefs}
-                            test={test}
-                        />
-                    )}
-                </div>
-            }
+            <div>
+                {numbersRef.current.map((n, index) =>
+                    <Row
+                        table={table}
+                        n={n}
+                        key={n}
+                        ref={saveRefs}
+                        markAsAnswered={markAsAnswered}
+                        factor={factor}
+                        shouldDisable={true}
+                    />
+                )}
+            </div>
         </div>
     )
 }
