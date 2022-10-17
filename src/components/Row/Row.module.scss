@@ -1,42 +1,52 @@
-.row {
+.inner {
+    width: 280px;
+    margin: 0 auto;
+    padding-left: 40px;
+    text-align: left;
+
     &>span {
         display: inline-block;
-        margin-right: 10px;
-        text-align: left;
-
-        &:first-child {
-            min-width: 116px;
-            text-align: right;
-        }
+        min-width: 20px;
+        text-align: center;
     }
 
-    input {
-        width: 80px;
-        margin-right: 20px;
+    .number {
+        min-width: 38px;
     }
+
 }
 
 .field {
     display: inline-block;
-}
+    text-align: center;
 
-.correct {
-
-    input,
-    input:disabled {
-        background-color: greenyellow;
+    input {
+        width: 50px;
+        margin-right: 5px;
+        margin-left: 5px;
+        padding-right: 6px;
+        padding-left: 6px;
     }
-}
 
-.wrong {
+    &.correct {
 
-    input,
-    input:disabled {
-        background-color: red;
+        input,
+        input:disabled {
+            background-color: greenyellow;
+        }
+    }
+
+    &.wrong {
+
+        input,
+        input:disabled {
+            background-color: red;
+        }
     }
 }
 
 .answer {
-    min-width: 50px;
+    min-width: 38px;
+    margin-left: 5px;
     color: greenyellow
 }

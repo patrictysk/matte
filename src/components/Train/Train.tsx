@@ -6,7 +6,7 @@ import Series from '../Series/Series'
 
 const Train = () => {
 
-    const [table, setTable] = useState<number>()
+    const [table, setTable] = useState<Array<number>>()
     const [factor, setFactor] = useState<boolean>(false);
     const [ready, setReady] = useState<boolean>(false)
 
@@ -16,7 +16,7 @@ const Train = () => {
         const value: string | null = target.getAttribute('data-value')
 
         if (typeof value === 'string') {
-            setTable(parseInt(value))
+            setTable([parseInt(value)])
         }
     }
 
@@ -25,7 +25,7 @@ const Train = () => {
         for (let i = 1; i <= 10; i++) {
             buttons.push(
                 <Button
-                    className={`${i === table ? 'active' : ''} ${styles.button}`}
+                    className={styles.button}
                     key={i}
                     onClick={handleTableSelect}
                     data-value={i}
@@ -40,8 +40,12 @@ const Train = () => {
     return (
         <div className={styles.wrapper}>
             {!ready && <>
-                <h1 className='heading1'>Välj en tabell eller tiokompisar:</h1>
-                {renderButtons()}
+
+                {!table &&
+                    <><h1 className='heading1'>Välj en tabell eller tiokompisar:</h1>
+                        {renderButtons()}
+                    </>
+                }
                 {/* <Button className={styles.button}>Tiokompisar</Button> */}
                 {table && <>
                     <h1 className='heading1'>Vill du skriva svaret eller en faktor?</h1>
