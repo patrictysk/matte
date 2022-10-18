@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { shuffleArray } from '../../utils/helpers';
 import Row from '../Row/Row';
+import Button from 'react-bootstrap/Button';
 import styles from './Series.module.scss';
 
 type SeriesProps = {
@@ -11,11 +12,11 @@ type SeriesProps = {
 const Series = ({ table, factor }: SeriesProps) => {
 
     const numbersRef = useRef(shuffleArray<number>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
-
     const inputsRef = useRef<Array<HTMLInputElement>>([])
 
     const [numberOfAnswers, setNumberOfAnswers] = useState<number>(0)
     const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState<number>(0)
+    const [showResult, setShowResult] = useState<boolean>(false)
 
     useEffect(() => {
         inputsRef.current[0].focus()
@@ -23,7 +24,7 @@ const Series = ({ table, factor }: SeriesProps) => {
 
     useEffect(() => {
         if (numberOfAnswers === numbersRef.current.length) {
-            console.log('Done!!', numberOfCorrectAnswers);
+            setShowResult(true)
         }
     }, [numberOfAnswers, numberOfCorrectAnswers])
 
@@ -46,7 +47,7 @@ const Series = ({ table, factor }: SeriesProps) => {
                 inputsRef.current[index + 1].focus()
             } else {
                 console.log('or here');
-                inputsRef.current[0].focus()
+                inputsRef.current[index].blur()
             }
             e.preventDefault()
         }
@@ -71,6 +72,16 @@ const Series = ({ table, factor }: SeriesProps) => {
                         />
                     </div>
                 )}
+                {showResult && (numberOfCorrectAnswers === numberOfAnswers) &&
+                    <h1 className='heading1'>Du hade alla rätt! Bra jobbat :)</h1>
+                    <button></button>
+                }
+                {showResult && (numberOfCorrectAnswers === 0) &&
+                    <h1 className='heading1'>Det blev inga rätt den här gången men var inte ledsen för det, prova igen!</h1>
+                }
+                {showResult && (numberOfCorrectAnswers > 0 && numberOfCorrectAnswers < numberOfAnswers) &&
+                    <h1 className='heading1'>Du hade {numberOfCorrectAnswers} rätt av {numberOfAnswers}!</h1>
+                }
             </div>
         </div>
     )

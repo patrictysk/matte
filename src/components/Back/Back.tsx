@@ -8,7 +8,7 @@ type BackProps = {
 
 const Back = ({ handleBack, value }: BackProps) => {
     return (
-        <Styled.Button onClick={() => handleBack(value)}>Tillbaka</Styled.Button>
+        <Styled.Button onClick={() => handleBack(value)}>Tillbaka till start</Styled.Button>
     )
 }
 
