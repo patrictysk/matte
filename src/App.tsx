@@ -4,14 +4,13 @@ import Back from './components/Back/Back'
 import Learn from './components/Learn/Learn'
 import Train from './components/Train/Train'
 import Compete from './components/Compete'
-import { Mode } from 'fs';
 
 // Importing the Bootstrap CSS
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
 
-    const [mode, setMode] = useState<Mode>('start')
+    const [mode, setMode] = useState<string>('start')
 
     console.log('render app');
 

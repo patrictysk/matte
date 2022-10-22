@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { shuffleArray } from '../../utils/helpers';
 import Row from '../Row/Row';
+import Back from '../Back/Back';
 import Button from 'react-bootstrap/Button';
 import styles from './Series.module.scss';
 
 type SeriesProps = {
     table: Array<number>,
     factor: boolean
+    setMode: React.Dispatch<React.SetStateAction<string>>
 }
 
-const Series = ({ table, factor }: SeriesProps) => {
+const Series = ({ table, factor, setMode }: SeriesProps) => {
 
     const numbersRef = useRef(shuffleArray<number>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
     const inputsRef = useRef<Array<HTMLInputElement>>([])
@@ -74,13 +76,18 @@ const Series = ({ table, factor }: SeriesProps) => {
                 )}
                 {showResult && (numberOfCorrectAnswers === numberOfAnswers) &&
                     <h1 className='heading1'>Du hade alla rätt! Bra jobbat :)</h1>
-                    <button></button>
                 }
                 {showResult && (numberOfCorrectAnswers === 0) &&
                     <h1 className='heading1'>Det blev inga rätt den här gången men var inte ledsen för det, prova igen!</h1>
                 }
                 {showResult && (numberOfCorrectAnswers > 0 && numberOfCorrectAnswers < numberOfAnswers) &&
                     <h1 className='heading1'>Du hade {numberOfCorrectAnswers} rätt av {numberOfAnswers}!</h1>
+                }
+                {showResult &&
+                    <Button
+                        onClick={() => setMode('train')}
+                        className={styles.back}
+                    >En gång till!</Button>
                 }
             </div>
         </div>

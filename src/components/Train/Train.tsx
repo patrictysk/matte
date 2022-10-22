@@ -3,8 +3,11 @@ import styles from './Train.module.scss';
 import Button from 'react-bootstrap/Button';
 import Series from '../Series/Series'
 
+type TrainProps = {
+    setMode: React.Dispatch<React.SetStateAction<string>>
+}
 
-const Train = () => {
+const Train = ({ setMode }: TrainProps) => {
 
     const [table, setTable] = useState<Array<number>>()
     const [factor, setFactor] = useState<boolean>(false);
@@ -72,6 +75,7 @@ const Train = () => {
                     <Series
                         table={table}
                         factor={factor}
+                        setMode={setMode}
                     />
                 </>
             }
