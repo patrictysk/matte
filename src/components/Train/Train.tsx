@@ -3,11 +3,7 @@ import styles from './Train.module.scss';
 import Button from 'react-bootstrap/Button';
 import Series from '../Series/Series'
 
-type TrainProps = {
-    setMode: React.Dispatch<React.SetStateAction<string>>
-}
-
-const Train = ({ setMode }: TrainProps) => {
+const Train = () => {
 
     const [table, setTable] = useState<Array<number>>()
     const [factor, setFactor] = useState<boolean>(false);
@@ -38,6 +34,12 @@ const Train = ({ setMode }: TrainProps) => {
             )
         }
         return buttons
+    }
+
+    const handleRestart = () => {
+        setTable(undefined)
+        setFactor(false)
+        setReady(false)
     }
 
     return (
@@ -75,7 +77,7 @@ const Train = ({ setMode }: TrainProps) => {
                     <Series
                         table={table}
                         factor={factor}
-                        setMode={setMode}
+                        restart={handleRestart}
                     />
                 </>
             }

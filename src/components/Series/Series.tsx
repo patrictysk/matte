@@ -1,17 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { shuffleArray } from '../../utils/helpers';
 import Row from '../Row/Row';
 import Back from '../Back/Back';
 import Button from 'react-bootstrap/Button';
 import styles from './Series.module.scss';
+import { resolveProjectReferencePath } from 'typescript';
 
 type SeriesProps = {
     table: Array<number>,
     factor: boolean
-    setMode: React.Dispatch<React.SetStateAction<string>>
+    restart: () => void
 }
 
-const Series = ({ table, factor, setMode }: SeriesProps) => {
+const Series = ({ table, factor, restart }: SeriesProps) => {
 
     const numbersRef = useRef(shuffleArray<number>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
     const inputsRef = useRef<Array<HTMLInputElement>>([])
@@ -21,8 +22,10 @@ const Series = ({ table, factor, setMode }: SeriesProps) => {
     const [showResult, setShowResult] = useState<boolean>(false)
 
     useEffect(() => {
-        inputsRef.current[0].focus()
-    }, [inputsRef])
+        if (!showResult) {
+            inputsRef.current[0].focus()
+        }
+    }, [inputsRef, showResult])
 
     useEffect(() => {
         if (numberOfAnswers === numbersRef.current.length) {
@@ -31,7 +34,13 @@ const Series = ({ table, factor, setMode }: SeriesProps) => {
     }, [numberOfAnswers, numberOfCorrectAnswers])
 
     const saveRefs = (instance: HTMLInputElement): void => {
-        inputsRef.current.push(instance)
+        if (instance) {
+            const index: number = Number(instance.dataset?.index)
+
+            if (index >= 0) {
+                inputsRef.current[index] = instance
+            }
+        }
     }
 
     const markAsAnswered = (correct: boolean) => {
@@ -43,22 +52,24 @@ const Series = ({ table, factor, setMode }: SeriesProps) => {
 
     const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
         if (e.code === 'Enter') {
-            console.log('index :>> ', index, inputsRef.current[index + 1]);
             if (inputsRef.current[index + 1]) {
                 console.log('here');
                 inputsRef.current[index + 1].focus()
             } else {
-                console.log('or here');
                 inputsRef.current[index].blur()
             }
             e.preventDefault()
         }
     }
 
+    const handleReset = () => {
+        restart()
+    }
+
     return (
         <div className={styles.wrapper}>
             <div>
-                {numbersRef.current.map((n, index) =>
+                {!showResult && numbersRef.current.map((n, index) =>
                     <div
                         onKeyDown={(e) => handleKeyDown(e, index)}
                         key={index}
@@ -66,6 +77,7 @@ const Series = ({ table, factor, setMode }: SeriesProps) => {
                         <Row
                             table={table[0]}
                             n={n}
+                            index={index}
                             ref={saveRefs}
                             markAsAnswered={markAsAnswered}
                             factor={factor}
@@ -85,8 +97,7 @@ const Series = ({ table, factor, setMode }: SeriesProps) => {
                 }
                 {showResult &&
                     <Button
-                        onClick={() => setMode('train')}
-                        className={styles.back}
+                        onClick={handleReset}
                     >En gång till!</Button>
                 }
             </div>
