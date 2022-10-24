@@ -19,7 +19,7 @@ const App = () => {
             <div className="app-main">
                 {mode === 'start' &&
                     <>
-                        <h1 className='heading1'>Svea och Alfred lär sig matte!</h1>
+                        <h1 className='heading1'>Svea och Alfred lär sig matte!!!</h1>
                         <div>
                             <div
                                 className="app-select"
