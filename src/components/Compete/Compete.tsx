@@ -1,10 +1,13 @@
+import Timer from "../Timer/Timer";
 
 const Compete = () => {
 
     console.log('render compete');
 
     return (
-        <div>Compete!</div>
+        <>
+            <Timer />
+        </>
     )
 }
 

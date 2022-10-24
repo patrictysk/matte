@@ -3,7 +3,7 @@ import './App.scss';
 import Back from './components/Back/Back'
 import Learn from './components/Learn/Learn'
 import Train from './components/Train/Train'
-import Compete from './components/Compete'
+import Compete from './components/Compete/Compete'
 
 // Importing the Bootstrap CSS
 // import 'bootstrap/dist/css/bootstrap.min.css';
@@ -55,23 +55,15 @@ const App = () => {
                     </>
                 }
 
-                {mode === 'train' &&
+                {(mode === 'train' || mode === 'compete') &&
                     <>
                         <Back
                             handleBack={setMode}
                             value={'start'}
                         />
-                        <Train />
-                    </>
-                }
-
-                {mode === 'compete' &&
-                    <>
-                        <Back
-                            handleBack={setMode}
-                            value={'start'}
+                        <Train
+                            compete={mode === 'compete'}
                         />
-                        <Compete />
                     </>
                 }
             </div>

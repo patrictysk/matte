@@ -3,9 +3,14 @@ import styles from './Train.module.scss';
 import Button from 'react-bootstrap/Button';
 import Series from '../Series/Series'
 
-const Train = () => {
+type TrainProps = {
+    compete: boolean
+}
 
-    const [table, setTable] = useState<Array<number>>()
+const Train = ({ compete }: TrainProps) => {
+
+    const [table, setTable] = useState<number>()
+    const [friends, setFriends] = useState<number>()
     const [factor, setFactor] = useState<boolean>(false);
     const [ready, setReady] = useState<boolean>(false)
 
@@ -15,11 +20,28 @@ const Train = () => {
         const value: string | null = target.getAttribute('data-value')
 
         if (typeof value === 'string') {
-            setTable([parseInt(value)])
+            setTable(parseInt(value))
         }
     }
 
+    const handleFriendsSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
+
+        const target = e.target as HTMLButtonElement;
+        const value: string | null = target.getAttribute('data-value')
+
+        if (typeof value === 'string') {
+            setFriends(parseInt(value))
+            setReady(true)
+        }
+    }
+
+    const handleTableCompete1 = () => {
+
+    }
+
     const renderButtons = () => {
+
+        // Tables
         const buttons = []
         for (let i = 1; i <= 10; i++) {
             buttons.push(
@@ -33,11 +55,53 @@ const Train = () => {
                 </Button>
             )
         }
-        return buttons
+
+        // number-friends
+        const buttons2 = []
+
+        for (let i = 6; i <= 10; i++) {
+            buttons2.push(
+                <Button
+                    className={styles.button}
+                    key={i}
+                    onClick={handleFriendsSelect}
+                    data-value={i}
+                >
+                    {i}-kompisar
+                </Button>
+            )
+        }
+
+        return (
+            <>
+                <h1 className='heading1'>{compete ? 'Vad vill du tävla i?' : 'Välj en tabell eller kompisar:'}</h1>
+                {compete &&
+                    <>
+                        <Button
+                            className={styles.button}
+                            key={1}
+                            onClick={handleTableCompete1}
+                        >
+                            Ettan till femmans tabell
+                        </Button>
+                        <Button
+                            className={styles.button}
+                            key={1}
+                        // onClick={handleTableCompete2}
+                        >
+                            Sexan till nians tabell
+                        </Button>
+                    </>
+                }
+                {!compete && <div>{buttons}</div>}
+                <div>{buttons2}</div>
+            </>
+        )
     }
 
     const handleRestart = () => {
         setTable(undefined)
+        setFriends(undefined)
         setFactor(false)
         setReady(false)
     }
@@ -47,11 +111,10 @@ const Train = () => {
             {!ready && <>
 
                 {!table &&
-                    <><h1 className='heading1'>Välj en tabell eller tiokompisar:</h1>
+                    <>
                         {renderButtons()}
                     </>
                 }
-                {/* <Button className={styles.button}>Tiokompisar</Button> */}
                 {table && <>
                     <h1 className='heading1'>Vill du skriva svaret eller en faktor?</h1>
                     <Button
@@ -71,11 +134,12 @@ const Train = () => {
                     </Button>
                 </>}
             </>}
-            {ready && table &&
+            {ready && (table || friends) &&
                 <>
                     <h1 className='heading1'>Öva!</h1>
                     <Series
                         table={table}
+                        friends={friends}
                         factor={factor}
                         restart={handleRestart}
                     />

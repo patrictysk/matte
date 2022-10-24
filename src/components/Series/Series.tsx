@@ -5,19 +5,33 @@ import Button from 'react-bootstrap/Button';
 import styles from './Series.module.scss';
 
 type SeriesProps = {
-    table: Array<number>,
+    table: number | undefined,
+    friends: number | undefined,
     factor: boolean
     restart: () => void
 }
 
-const Series = ({ table, factor, restart }: SeriesProps) => {
-
-    const numbersRef = useRef(shuffleArray<number>([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]))
-    const inputsRef = useRef<Array<HTMLInputElement>>([])
+const Series = ({ table, friends, factor, restart }: SeriesProps) => {
 
     const [numberOfAnswers, setNumberOfAnswers] = useState<number>(0)
     const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState<number>(0)
     const [showResult, setShowResult] = useState<boolean>(false)
+
+    const createNumbers = (): Array<number> => {
+        let numbers: number[] = []
+        if (friends) {
+            for (let index = 0; index <= friends; index++) {
+                numbers.push(index)
+            }
+            return shuffleArray<number>(numbers)
+        } else {
+            numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+            return shuffleArray(numbers)
+        }
+    }
+
+    const numbersRef = useRef(shuffleArray<number>(createNumbers()))
+    const inputsRef = useRef<Array<HTMLInputElement>>([])
 
     useEffect(() => {
         if (!showResult) {
@@ -64,6 +78,8 @@ const Series = ({ table, factor, restart }: SeriesProps) => {
         restart()
     }
 
+    console.log('render series');
+
     return (
         <div className={styles.wrapper}>
             <div>
@@ -73,14 +89,14 @@ const Series = ({ table, factor, restart }: SeriesProps) => {
                         key={index}
                     >
                         <Row
-                            table={table[0]}
+                            table={table}
+                            friends={friends}
                             n={n}
                             index={index}
                             ref={saveRefs}
                             markAsAnswered={markAsAnswered}
                             factor={factor}
                             shouldDisable={true}
-                            compete={true}
                         />
                     </div>
                 )}
