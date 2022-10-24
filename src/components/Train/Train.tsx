@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './Train.module.scss';
 import Button from 'react-bootstrap/Button';
 import Series from '../Series/Series'
+import { shuffleArray } from '../../utils/helpers';
 
 type TrainProps = {
     compete: boolean
@@ -9,7 +10,7 @@ type TrainProps = {
 
 const Train = ({ compete }: TrainProps) => {
 
-    const [table, setTable] = useState<number>()
+    const [table, setTable] = useState<Array<Array<number>> | number>()
     const [friends, setFriends] = useState<number>()
     const [factor, setFactor] = useState<boolean>(false);
     const [ready, setReady] = useState<boolean>(false)
@@ -35,8 +36,15 @@ const Train = ({ compete }: TrainProps) => {
         }
     }
 
-    const handleTableCompete1 = () => {
-
+    const handleTableCompete = (start: number, stop: number) => {
+        // create array with competion numbers for tables 1 to 5
+        const numbers = []
+        for (let x = start; x < stop; x++) {
+            for (let y = start; y < stop; y++) {
+                numbers.push([x, y])
+            }
+        }
+        setTable(shuffleArray(numbers).slice(0, 10))
     }
 
     const renderButtons = () => {
@@ -80,14 +88,14 @@ const Train = ({ compete }: TrainProps) => {
                         <Button
                             className={styles.button}
                             key={1}
-                            onClick={handleTableCompete1}
+                            onClick={() => handleTableCompete(1, 5)}
                         >
                             Ettan till femmans tabell
                         </Button>
                         <Button
                             className={styles.button}
-                            key={1}
-                        // onClick={handleTableCompete2}
+                            key={2}
+                            onClick={() => handleTableCompete(6, 9)}
                         >
                             Sexan till nians tabell
                         </Button>
@@ -108,40 +116,42 @@ const Train = ({ compete }: TrainProps) => {
 
     return (
         <div className={styles.wrapper}>
-            {!ready && <>
-
-                {!table &&
-                    <>
-                        {renderButtons()}
-                    </>
-                }
-                {table && <>
-                    <h1 className='heading1'>Vill du skriva svaret eller en faktor?</h1>
-                    <Button
-                        className={styles.button}
-                        onClick={() => setReady(true)}
-                    >
-                        Svaret
-                    </Button>
-                    <Button
-                        className={styles.button}
-                        onClick={() => {
-                            setFactor(true)
-                            setReady(true)
-                        }}
-                    >
-                        En faktor
-                    </Button>
-                </>}
-            </>}
+            {!ready &&
+                <>
+                    {!table &&
+                        <>
+                            {renderButtons()}
+                        </>
+                    }
+                    {table && <>
+                        <h1 className='heading1'>Vill du skriva svaret eller en faktor?</h1>
+                        <Button
+                            className={styles.button}
+                            onClick={() => setReady(true)}
+                        >
+                            Svaret
+                        </Button>
+                        <Button
+                            className={styles.button}
+                            onClick={() => {
+                                setFactor(true)
+                                setReady(true)
+                            }}
+                        >
+                            En faktor
+                        </Button>
+                    </>}
+                </>
+            }
             {ready && (table || friends) &&
                 <>
-                    <h1 className='heading1'>Öva!</h1>
+                    <h1 className='heading1'>{compete ? 'Tävla!' : 'Öva!'}</h1>
                     <Series
                         table={table}
                         friends={friends}
                         factor={factor}
                         restart={handleRestart}
+                        compete={compete}
                     />
                 </>
             }

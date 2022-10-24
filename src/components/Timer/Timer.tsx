@@ -1,7 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import styles from './Timer.module.scss';
 
-const Timer = () => {
+type TimerProps = {
+    stop: boolean
+}
+
+const Timer = ({ stop }: TimerProps) => {
     // const [days, setDays] = useState(0)
     // const [hours, setHours] = useState(0)
     const [minutes, setMinutes] = useState(0)
@@ -21,10 +25,11 @@ const Timer = () => {
     }
 
     useEffect(() => {
-        const interval = setInterval(() => getTime(), 10)
-
-        return () => clearInterval(interval)
-    }, [])
+        if (!stop) {
+            const interval = setInterval(() => getTime(), 10)
+            return () => clearInterval(interval)
+        }
+    }, [stop])
 
 
     return (

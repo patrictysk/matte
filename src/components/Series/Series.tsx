@@ -3,19 +3,22 @@ import { shuffleArray } from '../../utils/helpers';
 import Row from '../Row/Row';
 import Button from 'react-bootstrap/Button';
 import styles from './Series.module.scss';
+import Timer from '../Timer/Timer';
 
 type SeriesProps = {
-    table: number | undefined,
+    table: Array<Array<number>> | number | undefined,
     friends: number | undefined,
     factor: boolean
-    restart: () => void
+    restart: () => void,
+    compete: boolean
 }
 
-const Series = ({ table, friends, factor, restart }: SeriesProps) => {
+const Series = ({ table, friends, factor, restart, compete }: SeriesProps) => {
 
     const [numberOfAnswers, setNumberOfAnswers] = useState<number>(0)
     const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState<number>(0)
     const [showResult, setShowResult] = useState<boolean>(false)
+    const [stop, setStop] = useState<boolean>(false)
 
     const createNumbers = (): Array<number> => {
         let numbers: number[] = []
@@ -40,10 +43,14 @@ const Series = ({ table, friends, factor, restart }: SeriesProps) => {
     }, [inputsRef, showResult])
 
     useEffect(() => {
-        if (numberOfAnswers === numbersRef.current.length) {
+        if (Array.isArray(table) && numberOfAnswers === table.length) {
             setShowResult(true)
+            setStop(true)
+        } else if (numberOfAnswers === numbersRef.current.length) {
+            setShowResult(true)
+            setStop(true)
         }
-    }, [numberOfAnswers, numberOfCorrectAnswers])
+    }, [numberOfAnswers, numberOfCorrectAnswers, table])
 
     const saveRefs = (instance: HTMLInputElement): void => {
         if (instance) {
@@ -78,18 +85,47 @@ const Series = ({ table, friends, factor, restart }: SeriesProps) => {
         restart()
     }
 
-    console.log('render series');
-
     return (
         <div className={styles.wrapper}>
             <div>
-                {!showResult && numbersRef.current.map((n, index) =>
+                {typeof table === 'number' && numbersRef.current.map((n, index) =>
                     <div
                         onKeyDown={(e) => handleKeyDown(e, index)}
                         key={index}
                     >
                         <Row
                             table={table}
+                            n={n}
+                            index={index}
+                            ref={saveRefs}
+                            markAsAnswered={markAsAnswered}
+                            factor={factor}
+                            shouldDisable={true}
+                        />
+                    </div>
+                )}
+                {Array.isArray(table) && table.map((item, index) =>
+                    <div
+                        onKeyDown={(e) => handleKeyDown(e, index)}
+                        key={index}
+                    >
+                        <Row
+                            table={item[0]}
+                            n={item[1]}
+                            index={index}
+                            ref={saveRefs}
+                            markAsAnswered={markAsAnswered}
+                            factor={factor}
+                            shouldDisable={true}
+                        />
+                    </div>
+                )}
+                {friends && numbersRef.current.map((n, index) =>
+                    <div
+                        onKeyDown={(e) => handleKeyDown(e, index)}
+                        key={index}
+                    >
+                        <Row
                             friends={friends}
                             n={n}
                             index={index}
@@ -100,6 +136,8 @@ const Series = ({ table, friends, factor, restart }: SeriesProps) => {
                         />
                     </div>
                 )}
+                {compete && <Timer stop={stop} />}
+
                 {showResult && (numberOfCorrectAnswers === numberOfAnswers) &&
                     <h1 className='heading1'>Du hade alla rätt! Bra jobbat :)</h1>
                 }

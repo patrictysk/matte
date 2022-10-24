@@ -31,8 +31,8 @@ const Input = forwardRef(({ answered, correct, setValue, shouldDisable, index, o
 })
 
 type RowProps = {
-    table: number | undefined,
-    friends: number | undefined,
+    table?: number | undefined,
+    friends?: number | undefined,
     n: number,
     index: number,
     markAsAnswered: (correct: boolean) => void,

@@ -6,7 +6,7 @@ const Compete = () => {
 
     return (
         <>
-            <Timer />
+            hej
         </>
     )
 }
