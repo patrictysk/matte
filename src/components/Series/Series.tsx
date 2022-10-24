@@ -1,10 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { shuffleArray } from '../../utils/helpers';
 import Row from '../Row/Row';
-import Back from '../Back/Back';
 import Button from 'react-bootstrap/Button';
 import styles from './Series.module.scss';
-import { resolveProjectReferencePath } from 'typescript';
 
 type SeriesProps = {
     table: Array<number>,
