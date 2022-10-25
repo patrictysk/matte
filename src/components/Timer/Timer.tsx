@@ -44,8 +44,13 @@ const Timer = ({ stop, highScore, setTime, clearHighScore }: TimerProps) => {
     return (
         <div className={styles.timer}>
             <span>{minutes < 10 ? '0' : ''}{minutes}:{seconds < 10 ? '0' : ''}{seconds},{tenths < 10 ? '0' : ''}{tenths}</span><br />
-            <span className={styles.highscore}>Bästa tiden med <br />alla rätt: {highScore ? internalHighscore : '-'}</span><br />
-            {highScore && <a href='#' onClick={clearHighScore}>Nollställ bästa tiden </a>}
+            <span className={styles.highscore}>Bästa tiden med <br />alla rätt: {internalHighscore ? internalHighscore : '-'}</span><br />
+            {internalHighscore && <a href='#' onClick={() => {
+                if (window.confirm('Är du säker på att du vill nollställa bästa tiden?')) {
+                    setInternalHighscore('')
+                    clearHighScore()
+                }
+            }}>Nollställ bästa tiden </a>}
         </div>
     )
 }

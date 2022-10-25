@@ -108,9 +108,7 @@ const Series = ({ table, friends, factor, restart, compete, competitionId }: Ser
 
     const clearHighScore = () => {
         if (competitionId) {
-            if (window.confirm('Är du säker på att du vill nollställa bästa tiden?')) {
-                localStorage.removeItem(competitionId)
-            }
+            localStorage.removeItem(competitionId)
         }
     }
 
