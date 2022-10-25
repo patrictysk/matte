@@ -10,10 +10,11 @@ type SeriesProps = {
     friends: number | undefined,
     factor: boolean
     restart: () => void,
-    compete: boolean
+    compete: boolean,
+    competitionId?: string
 }
 
-const Series = ({ table, friends, factor, restart, compete }: SeriesProps) => {
+const Series = ({ table, friends, factor, restart, compete, competitionId }: SeriesProps) => {
 
     const [numberOfAnswers, setNumberOfAnswers] = useState<number>(0)
     const [numberOfCorrectAnswers, setNumberOfCorrectAnswers] = useState<number>(0)
@@ -85,6 +86,26 @@ const Series = ({ table, friends, factor, restart, compete }: SeriesProps) => {
         restart()
     }
 
+    const getHighScore = () => {
+        if (competitionId) {
+            const highscore = localStorage.getItem(competitionId)
+            if (highscore) {
+                return highscore
+            }
+        }
+        return '-'
+    }
+
+    const setHighScore = (time: number) => {
+        if (competitionId && (numberOfCorrectAnswers === numberOfAnswers)) {
+
+            const highscore = localStorage.getItem(competitionId)
+            if (!highscore || (highscore && (time < Number(highscore)))) {
+                localStorage.setItem(competitionId, time.toString())
+            }
+        }
+    }
+
     return (
         <div className={styles.wrapper}>
             <div>
@@ -136,7 +157,14 @@ const Series = ({ table, friends, factor, restart, compete }: SeriesProps) => {
                         />
                     </div>
                 )}
-                {compete && <Timer stop={stop} />}
+
+                {compete && competitionId &&
+                    <Timer
+                        highScore={getHighScore()}
+                        setTime={setHighScore}
+                        stop={stop}
+                    />
+                }
 
                 {showResult && (numberOfCorrectAnswers === numberOfAnswers) &&
                     <h1 className='heading1'>Du hade alla rätt! Bra jobbat :)</h1>

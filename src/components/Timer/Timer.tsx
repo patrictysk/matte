@@ -3,9 +3,11 @@ import styles from './Timer.module.scss';
 
 type TimerProps = {
     stop: boolean
+    highScore: string
+    setTime: (time: number) => void
 }
 
-const Timer = ({ stop }: TimerProps) => {
+const Timer = ({ stop, highScore, setTime }: TimerProps) => {
     // const [days, setDays] = useState(0)
     // const [hours, setHours] = useState(0)
     const [minutes, setMinutes] = useState(0)
@@ -22,18 +24,24 @@ const Timer = ({ stop }: TimerProps) => {
         setMinutes(Math.floor((time / 1000 / 60) % 60))
         setSeconds(Math.floor((time / 1000) % 60))
         setTenths(Math.floor((time / 100) % 60))
+
+        return time
     }
 
     useEffect(() => {
         if (!stop) {
             const interval = setInterval(() => getTime(), 10)
             return () => clearInterval(interval)
+        } else {
+            setTime(getTime())
         }
-    }, [stop])
+    }, [minutes, seconds, setTime, stop, tenths])
+
 
 
     return (
         <div className={styles.timer}>
+            {/* <span>{highScore}</span> */}
             <span>{minutes < 10 ? '0' : ''}{minutes}:{seconds < 10 ? '0' : ''}{seconds},{tenths < 10 ? '0' : ''}{tenths}</span>
         </div>
     )

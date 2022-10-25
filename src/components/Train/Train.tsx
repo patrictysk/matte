@@ -12,8 +12,9 @@ const Train = ({ compete }: TrainProps) => {
 
     const [table, setTable] = useState<Array<Array<number>> | number>()
     const [friends, setFriends] = useState<number>()
-    const [factor, setFactor] = useState<boolean>(false);
+    const [factor, setFactor] = useState<boolean>(false)
     const [ready, setReady] = useState<boolean>(false)
+    const [competitionId, setCompetitionId] = useState<string>()
 
     const handleTableSelect = (e: React.MouseEvent<HTMLButtonElement>) => {
 
@@ -32,6 +33,9 @@ const Train = ({ compete }: TrainProps) => {
 
         if (typeof value === 'string') {
             setFriends(parseInt(value))
+            if (compete) {
+                setCompetitionId(`friends-${value}`)
+            }
             setReady(true)
         }
     }
@@ -45,6 +49,7 @@ const Train = ({ compete }: TrainProps) => {
             }
         }
         setTable(shuffleArray(numbers).slice(0, 10))
+        setCompetitionId(`table-${start}-${stop}`)
     }
 
     const renderButtons = () => {
@@ -124,13 +129,7 @@ const Train = ({ compete }: TrainProps) => {
                         </>
                     }
                     {table && <>
-                        <h1 className='heading1'>Vill du skriva svaret eller en faktor?</h1>
-                        <Button
-                            className={styles.button}
-                            onClick={() => setReady(true)}
-                        >
-                            Svaret
-                        </Button>
+                        <h1 className='heading1'>Skriva en faktor eller svaret?</h1>
                         <Button
                             className={styles.button}
                             onClick={() => {
@@ -139,6 +138,12 @@ const Train = ({ compete }: TrainProps) => {
                             }}
                         >
                             En faktor
+                        </Button>
+                        <Button
+                            className={styles.button}
+                            onClick={() => setReady(true)}
+                        >
+                            Svaret
                         </Button>
                     </>}
                 </>
@@ -152,6 +157,7 @@ const Train = ({ compete }: TrainProps) => {
                         factor={factor}
                         restart={handleRestart}
                         compete={compete}
+                        competitionId={competitionId}
                     />
                 </>
             }

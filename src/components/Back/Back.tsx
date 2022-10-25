@@ -7,7 +7,7 @@ type BackProps = {
     children?: React.ReactNode
 }
 
-const Back = ({ handleBack, value, children = 'Tillbaka till start' }: BackProps) => {
+const Back = ({ handleBack, value, children = 'Till start' }: BackProps) => {
     return (
         <Styled.Button onClick={() => handleBack(value)}>
             {children}
