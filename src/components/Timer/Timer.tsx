@@ -4,15 +4,17 @@ import styles from './Timer.module.scss';
 type TimerProps = {
     stop: boolean
     highScore: string
-    setTime: (time: number) => void
+    setTime: (time: number) => void,
+    clearHighScore: () => void
 }
 
-const Timer = ({ stop, highScore, setTime }: TimerProps) => {
+const Timer = ({ stop, highScore, setTime, clearHighScore }: TimerProps) => {
     // const [days, setDays] = useState(0)
     // const [hours, setHours] = useState(0)
     const [minutes, setMinutes] = useState(0)
     const [seconds, setSeconds] = useState(0)
     const [tenths, setTenths] = useState(0)
+    const [internalHighscore, setInternalHighscore] = useState(highScore)
 
     const startTimeRef = useRef<number>(Date.now())
 
@@ -41,8 +43,9 @@ const Timer = ({ stop, highScore, setTime }: TimerProps) => {
 
     return (
         <div className={styles.timer}>
-            {/* <span>{highScore}</span> */}
-            <span>{minutes < 10 ? '0' : ''}{minutes}:{seconds < 10 ? '0' : ''}{seconds},{tenths < 10 ? '0' : ''}{tenths}</span>
+            <span>{minutes < 10 ? '0' : ''}{minutes}:{seconds < 10 ? '0' : ''}{seconds},{tenths < 10 ? '0' : ''}{tenths}</span><br />
+            <span className={styles.highscore}>Bästa tiden med <br />alla rätt: {highScore ? internalHighscore : '-'}</span><br />
+            {highScore && <a href='#' onClick={clearHighScore}>Nollställ bästa tiden </a>}
         </div>
     )
 }
