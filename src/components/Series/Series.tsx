@@ -90,10 +90,10 @@ const Series = ({ table, friends, factor, restart, compete, competitionId }: Ser
         if (competitionId) {
             const highscore = localStorage.getItem(competitionId)
             if (highscore) {
-                return highscore
+                return `${Math.floor((Number(highscore) / 1000 / 60) % 60)}:${Math.floor((Number(highscore) / 1000) % 60)},${Math.floor((Number(highscore) / 100) % 60)}`
             }
         }
-        return '-'
+        return ''
     }
 
     const setHighScore = (time: number) => {
@@ -102,6 +102,14 @@ const Series = ({ table, friends, factor, restart, compete, competitionId }: Ser
             const highscore = localStorage.getItem(competitionId)
             if (!highscore || (highscore && (time < Number(highscore)))) {
                 localStorage.setItem(competitionId, time.toString())
+            }
+        }
+    }
+
+    const clearHighScore = () => {
+        if (competitionId) {
+            if (window.confirm('Är du säker på att du vill nollställa bästa tiden?')) {
+                localStorage.removeItem(competitionId)
             }
         }
     }
@@ -161,6 +169,7 @@ const Series = ({ table, friends, factor, restart, compete, competitionId }: Ser
                 {compete && competitionId &&
                     <Timer
                         highScore={getHighScore()}
+                        clearHighScore={clearHighScore}
                         setTime={setHighScore}
                         stop={stop}
                     />
