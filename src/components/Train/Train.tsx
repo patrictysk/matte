@@ -23,6 +23,9 @@ const Train = ({ compete }: TrainProps) => {
 
         if (typeof value === 'string') {
             setTable(parseInt(value))
+            if (compete) {
+                setCompetitionId(`table-${value}`)
+            }
         }
     }
 
@@ -88,6 +91,7 @@ const Train = ({ compete }: TrainProps) => {
         return (
             <>
                 <h1 className='heading1'>{compete ? 'Vad vill du tävla i?' : 'Välj en tabell eller kompisar:'}</h1>
+                <div>{buttons}</div>
                 {compete &&
                     <>
                         <Button
@@ -106,7 +110,6 @@ const Train = ({ compete }: TrainProps) => {
                         </Button>
                     </>
                 }
-                {!compete && <div>{buttons}</div>}
                 <div>{buttons2}</div>
             </>
         )
