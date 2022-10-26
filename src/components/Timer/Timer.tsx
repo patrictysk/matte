@@ -25,7 +25,7 @@ const Timer = ({ stop, highScore, setTime, clearHighScore }: TimerProps) => {
         // setHours(Math.floor((time / (1000 * 60 * 60)) % 24))
         setMinutes(Math.floor((time / 1000 / 60) % 60))
         setSeconds(Math.floor((time / 1000) % 60))
-        setTenths(Math.floor((time / 100) % 60))
+        setTenths(Math.floor((time / 10) % 60))
 
         return time
     }
@@ -45,7 +45,7 @@ const Timer = ({ stop, highScore, setTime, clearHighScore }: TimerProps) => {
         <div className={styles.timer}>
             <span>{minutes < 10 ? '0' : ''}{minutes}:{seconds < 10 ? '0' : ''}{seconds},{tenths < 10 ? '0' : ''}{tenths}</span><br />
             <span className={styles.highscore}>Bästa tiden med <br />alla rätt: {internalHighscore ? internalHighscore : '-'}</span><br />
-            {internalHighscore && <a href='#' onClick={() => {
+            {internalHighscore && <a href='#' tabIndex={-1} onClick={() => {
                 if (window.confirm('Är du säker på att du vill nollställa bästa tiden?')) {
                     setInternalHighscore('')
                     clearHighScore()

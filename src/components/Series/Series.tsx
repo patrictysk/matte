@@ -90,7 +90,10 @@ const Series = ({ table, friends, factor, restart, compete, competitionId }: Ser
         if (competitionId) {
             const highscore = localStorage.getItem(competitionId)
             if (highscore) {
-                return `${Math.floor((Number(highscore) / 1000 / 60) % 60)}:${Math.floor((Number(highscore) / 1000) % 60)},${Math.floor((Number(highscore) / 100) % 60)}`
+                const minutes = Math.floor((Number(highscore) / 1000 / 60) % 60)
+                const seconds = Math.floor((Number(highscore) / 1000) % 60)
+                const tenths = Math.floor((Number(highscore) / 10) % 60)
+                return `${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds},${tenths < 10 ? '0' : ''}${tenths}`
             }
         }
         return ''
